@@ -1,67 +1,52 @@
 package ru.kata.spring.boot_security.demo.entity;
 
 import lombok.Data;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Collection;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import java.util.Set;
 
 @Entity
 @Data
-@Table(name = "user")
-public class User implements UserDetails {
+@Table(name = "users")
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "user_name")
+    @NotEmpty(message = "Username должен быть минимум 4 символа")
+    @Min(value = 4)
     private String username;
 
     @Column(name = "password")
+    @NotEmpty
     private String password;
 
-    private String passwordConfirm;
-
     @Column(name = "name")
+    @NotEmpty
     private String name;
 
     @Column(name = "surname")
+    @NotEmpty
     private String surname;
 
     @Column(name = "age")
+    @NotEmpty
+    @Min(value = 0, message = "Ваш возраст не должен быть отрицательным")
     private byte age;
 
+    @Email
+    @NotEmpty(message = "Заполните строку email")
     @Column(name = "email")
     private String email;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Role> roles;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getRoles();
-    }
+    @ManyToOne
+    private Role roles;
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true; 
-    }
 }
