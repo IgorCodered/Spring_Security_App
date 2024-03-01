@@ -1,6 +1,6 @@
 package ru.kata.spring.boot_security.demo.data;
 
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.kata.spring.boot_security.demo.entity.Role;
 import ru.kata.spring.boot_security.demo.entity.User;
@@ -11,11 +11,16 @@ import javax.annotation.PostConstruct;
 import java.util.Set;
 
 @Component
-@AllArgsConstructor
 public class Init {
 
     private final RoleService roleService;
     private final UserService userService;
+
+    @Autowired
+    public Init(RoleService roleService, UserService userService) {
+        this.roleService = roleService;
+        this.userService = userService;
+    }
 
     @PostConstruct
     public void init() {

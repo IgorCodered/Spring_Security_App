@@ -38,14 +38,10 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByUsername(username);
     }
 
-    @Override
-    public Optional<User> findById(Long id) {
-        return userRepository.findById(id);
-    }
 
     @Override
     public void delete(Long id) {
-
+        userRepository.deleteById(id);
     }
 
     @Override
@@ -55,8 +51,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void updateUser(User user) {
+        var userToBeUpdated = userRepository.findById(user.getId()).get();
+        userToBeUpdated.setUsername(user.getUsername());
+        userToBeUpdated.setEmail(user.getEmail());
+        userToBeUpdated.setRoles(user.getRoles());
+        userRepository.save(userToBeUpdated);
+    }
 
+    @Override
+    public Optional<User> findById(Long id) {
+        return userRepository.findById(id);
     }
 
 }

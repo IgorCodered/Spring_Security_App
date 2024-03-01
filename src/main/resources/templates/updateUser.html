@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактирование пользователя</title>
+    <h3>Редактирование пользователя</h3>
+    <h2><a th:href="@{/logout}">Выйти из системы</a></h2>
+</head>
+<body>
+<form th:method="POST" th:action="@{/admin/create}" th:object="${person}">
+    <div>
+        <label for="username">Измените логин</label>
+    </div>
+    <div>
+        <input type="text" th:field="*{username}" id="username">
+    </div>
+    <div>
+        <label for="email">Введите электронную почту</label>
+    </div>
+    <div>
+        <input type="text" th:field="*{email}" id="email">
+    </div>
+    <div>
+        <label for="role">Измените роли</label>
+    </div>
+    <div>
+        <input type="text" th:field="*{roles}" id="role">
+    </div>
+    <br>
+    <input type="submit" value="Изменить">
+</form>
+
+</body>
+</html>

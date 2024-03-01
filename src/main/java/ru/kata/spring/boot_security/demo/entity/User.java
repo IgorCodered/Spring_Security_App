@@ -28,11 +28,9 @@ public class User implements UserDetails {
 
     @Column(name = "username")
     @NotEmpty(message = "Username не должен быть пустым")
-//    @Min(value = 4)
     private String username;
 
     @Column(name = "password")
-    @NotEmpty(message = "Пароль не должен быть пустым")
     private String password;
 
     @Column(name = "age")

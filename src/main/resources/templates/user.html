@@ -9,9 +9,14 @@
     Info:
 
 </h1>
+<h2><a th:href="@{/logout}">Выйти из системы</a></h2>
 <div>
     <p>Ваше имя пользователя</p>
     <p th:text="*{user.username}"> </p>
+    <p>Ваш email</p>
+    <p th:text="*{user.email}"> </p>
+    <p>Вам лет</p>
+    <p th:text="*{user.age}"> </p>
 </div>
 </body>
 </html>
