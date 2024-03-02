@@ -5,7 +5,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.entity.User;
-import ru.kata.spring.boot_security.demo.repository.RoleRepository;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
 
 import java.util.List;
@@ -16,17 +15,18 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
+    private final RoleService roleService;
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
-                           RoleRepository roleRepository,
+                           RoleService roleService,
                            BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
+        this.roleService = roleService;
         this.passwordEncoder = passwordEncoder;
     }
+
 
     @Override
     public List<User> findAll() {
@@ -45,7 +45,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void saveUser(User user) {
+    @Transactional
+    public void saveUser(User user, String role) {
+        if (role != null && roleService.findRoleByName(role) != null) {
+            user.setRoles(List.of(roleService.findRoleByName(role)));
+        } else {
+            user.setRoles(List.of(roleService.findRoleByName("ROLE_USER")));
+        }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
@@ -55,8 +61,10 @@ public class UserServiceImpl implements UserService {
     public void updateUser(User user) {
         var userToBeUpdated = userRepository.findById(user.getId()).get();
         userToBeUpdated.setUsername(user.getUsername());
-        userToBeUpdated.setEmail(user.getEmail());
+        userToBeUpdated.setPassword(user.getPassword());
+        userToBeUpdated.setAge(user.getAge());
         userToBeUpdated.setRoles(user.getRoles());
+        userToBeUpdated.setEmail(user.getEmail());
         userRepository.save(userToBeUpdated);
     }
 

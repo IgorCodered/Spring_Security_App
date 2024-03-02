@@ -8,6 +8,7 @@ import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
 import java.util.Set;
 
 @Component
@@ -31,12 +32,12 @@ public class Init {
         roleService.saveRole(roleUser);
 
         User admin = new User("admin", "100",
-                30, "igor@mail.ru", Set.of(roleAdmin));
+                30, "igor@mail.ru", List.of(roleAdmin));
 
         User user = new User("user", "100",
-                30, "user@mail.ru", Set.of(roleUser));
+                30, "user@mail.ru", List.of(roleUser));
 
-        userService.saveUser(admin);
-        userService.saveUser(user);
+        userService.saveUser(admin, roleAdmin.toString());
+        userService.saveUser(user, roleUser.toString());
     }
 }

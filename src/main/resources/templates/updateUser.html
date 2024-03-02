@@ -7,7 +7,7 @@
     <h2><a th:href="@{/logout}">Выйти из системы</a></h2>
 </head>
 <body>
-<form th:method="POST" th:action="@{/admin/create}" th:object="${person}">
+<form th:method="PATCH" th:action="@{/admin/edit/{id}(id=${person.id})}" th:object="${person}">
     <div>
         <label for="username">Измените логин</label>
     </div>
@@ -19,12 +19,6 @@
     </div>
     <div>
         <input type="text" th:field="*{email}" id="email">
-    </div>
-    <div>
-        <label for="role">Измените роли</label>
-    </div>
-    <div>
-        <input type="text" th:field="*{roles}" id="role">
     </div>
     <br>
     <input type="submit" value="Изменить">

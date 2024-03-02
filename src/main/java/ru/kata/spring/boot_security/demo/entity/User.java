@@ -1,18 +1,16 @@
 package ru.kata.spring.boot_security.demo.entity;
 
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -34,14 +32,14 @@ public class User implements UserDetails {
     private String password;
 
     @Column(name = "age")
-    @Min(value = 5, message = "Ваш возраст не должен быть отрицательным")
     private int age;
 
     @Email
     @NotEmpty(message = "Заполните строку email")
     @Column(name = "email")
     private String email;
-    public User(String username, String password, int age, String email, Set<Role> roles) {
+
+    public User(String username, String password, int age, String email, List<Role> roles) {
         this.username = username;
         this.password = password;
         this.age = age;
@@ -53,7 +51,8 @@ public class User implements UserDetails {
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Collection<Role> roles;
+    @Column(name = "roles")
+    private List<Role> roles;
 
     @Override
     @Transactional

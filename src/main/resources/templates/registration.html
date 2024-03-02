@@ -3,44 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <title>Создание пользователя</title>
-    <h3>Создание пользователя</h3>
+    <h1>Создание пользователя</h1>
     <h2><a th:href="@{/logout}">Выйти из системы</a></h2>
 </head>
 <body>
 
 <form th:method="POST" th:action="@{/create}" th:object="${user}">
     <div>
-        <label for="username">Заполните логин</label>
-    </div>
-    <div>
+        <label for="username">Введите логин</label>
         <input type="text" th:field="*{username}" id="username">
     </div>
     <div>
         <label for="password">Введите пароль</label>
-    </div>
-    <div>
         <input type="password" th:field="*{password}" id="password">
     </div>
     <div>
-        <label for="email">Введите электронную почту</label>
-    </div>
-    <div>
+        <label for="email">Электронная почта</label>
         <input type="text" th:field="*{email}" id="email">
     </div>
     <div>
-        <label for="age">Сколько вам лет?</label>
-    </div>
-    <div>
+        <label for="age">Сколько лет?</label>
         <input type="number" th:field="*{age}" id="age">
     </div>
-    <div>
-        <label for="role">Присвойте роль</label>
-    </div>
-    <div>
-        <input type="text" th:field="*{roles}" id="role">
-    </div>
+<!--    <div>-->
+<!--        <label for="role">Роль</label>-->
+<!--        <select th:field="*{roles}" id="role">-->
+<!--            <option th:each="role : ${availableRoles}" th:value="${role}" th:text="${role.name}">Выберите роль</option>-->
+<!--        </select>-->
+<!--    </div>-->
     <br>
-    <input type="submit" value="Зарегестрироваться!">
+    <input type="submit" value="Создать нового пользователя!">
 </form>
 
 </body>
