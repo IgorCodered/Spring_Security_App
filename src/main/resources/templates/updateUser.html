@@ -15,8 +15,12 @@
     <label for="email">Изменить электронную почту</label>
     <input type="text" th:field="*{email}" id="email">
     <br>
+    <label for="age">Изменить возраст</label>
+    <input type="text" th:field="*{age}" id="age">
+    <input type="hidden" th:field="*{password}">
+    <br>
     <label for="roles">Выберите роль(и)</label>
-    <select th:field="*{roles}" id="roles" >
+    <select th:field="*{roles}" id="roles" multiple="multiple">
         <option th:each="role : ${roles}" th:value="${role.id}"
                 th:text="${role.name}">Список ролей
         </option>
