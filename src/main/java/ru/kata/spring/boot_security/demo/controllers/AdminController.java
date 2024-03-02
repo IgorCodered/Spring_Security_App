@@ -8,6 +8,8 @@ import ru.kata.spring.boot_security.demo.entity.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
+import java.util.Optional;
+
 @Controller
 public class AdminController {
 
@@ -49,12 +51,15 @@ public class AdminController {
     public String update(@RequestParam("id") Long id,
                          ModelMap model) {
         model.addAttribute("person", userService.findById(id).get());
+        model.addAttribute("roles", roleService.findAll());
         return "updateUser";
     }
 
-    @PatchMapping("/admin/edit")
-    public String postUpdate(@ModelAttribute("user") User user) {
+    @PatchMapping("/admin/edit/{id}")
+    public String postUpdate(@ModelAttribute("user") User user,
+                             @PathVariable("id") Long id) {
 //        if (result.hasErrors()) return "/admin";
+        var findedUser = userService.findById(id).get();
         userService.updateUser(user);
         return "redirect:/admin";
     }
